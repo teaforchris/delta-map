@@ -1,4 +1,4 @@
-const { scan } = require('../src/scan');
+const { scan } = require('../src/index');
 
 describe('initial tests', function() {
 
