@@ -19,7 +19,7 @@ const jsonPayload = {
     'another_key': "Some text"
 };
 
-console.log(process.argv[2]);
+// console.log(process.argv[2]);
 
 lambdaLocal.execute({
     event: jsonPayload,
@@ -27,12 +27,12 @@ lambdaLocal.execute({
     lambdaHandler: lambdaToRun,
     profilePath: '~/.aws/credentials',
     profileName: 'default',
-    timeoutMs: 3000,
+    timeoutMs: 1000*10,
     callback: function(err, data) {
         if (err) {
-            console.log(err);
+            console.error(err);
         } else {
-            console.log(data);
+            console.info(data);
         }
     }
 });

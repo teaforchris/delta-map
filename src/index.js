@@ -1,24 +1,25 @@
-const request = require('request-promise');
-const cheerio = require('cheerio');
+const { Chromeless } = require('chromeless');
 
+exports.scan = async function (event, context, callback) {
 
-const fetch = (uri) => {
+    const chromeless = new Chromeless({debug: true});
 
-};
+    return await chromeless
+        // .goto('https://www.sainsburys.co.uk/shop/gb/groceries/cointreau-liqueur-50cl')
+        .goto('http://httpstat.us/200')
+        .evaluate(() => {
+            // this will be executed in headless chrome
+            return 'lol';
+            const prices = [].map.call(
+                document.querySelectorAll('div.pricing > p.pricePerUnit'),
+                a => ({price: a.innerText})
+            );
+            return JSON.stringify(prices)
+        })
 
-exports.scan = function (event, context, callback) {
-    /*
-    Premise:
-    - fetch a URL and capture its response code and body
-    - store the response code and body in dynamodb
-     */
-    console.log('event', event);
-    request('https://devinmy.team', function(error, response, body){
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body length:', body.length);
-        callback('done');
-    });
-    console.log('did a scan');
+        .end();
 
+    console.log(price);
+    callback(null, price);
+    // run().catch(console.error.bind(console)).then(price => {callback(null, price)});
 };
